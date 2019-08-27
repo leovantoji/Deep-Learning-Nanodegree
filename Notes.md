@@ -2,7 +2,12 @@
 ## Recurrent Neural Networks (RNNs)
 - Recurrent Neural Networks give us a way to incorporate **memory** into our neural networks, and will be critical in analysing sequential data. RNN's are most often associated with **text processing** and **text generation** because of the way sentences are structured as a sequence of words.
 - RNNs have a key flaw, as capturing relationships that span more than 8 or 10 steps back is practically impossible. The flaw stems from the **vanishing gradient** problem in which the contribution of information decays geometrically over time. **LSTM** is one option to overcome the **vanishing gradient** problem in RNNs.
-- 
+- The **feedforward process** comprises the following steps:
+  - Calculate the values of the hidden states.
+  - Calculate the values of the outputs.
+- In the **backpropagation process**, we minimize the network error slightly with each iteration, by adjusting the weights.
+- **Activation function** allows the network to represent non-linear relationships between its inputs and outputs. This is extremely important since most real world data is non-linear. The **activation function** contributes to the aforementioned **vanishing gradient** problem. More on this topic can be found [here](https://github.com/Kulbear/deep-learning-nano-foundation/wiki/ReLU-and-Softmax-Activation-Functions).
+
 
 ## Generative Adversarial Networks (GANs)
 - **GANs** are used to generate realistic data.
