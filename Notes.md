@@ -7,7 +7,24 @@
   - Calculate the values of the outputs.
 - In the **backpropagation process**, we minimize the network error slightly with each iteration, by adjusting the weights.
 - **Activation function** allows the network to represent non-linear relationships between its inputs and outputs. This is extremely important since most real world data is non-linear. The **activation function** contributes to the aforementioned **vanishing gradient** problem. More on this topic can be found [here](https://github.com/Kulbear/deep-learning-nano-foundation/wiki/ReLU-and-Softmax-Activation-Functions).
-
+- Reasons for using Mini-batch Gradient Descent are:
+  - Reduction of complexity of the training process.
+  - Noise reduction.
+- Applications of RNNs:
+  - Sentiment Analysis.
+  - Speech Recognition.
+  - Time Series Prediction.
+  - Natural Language Processing.
+  - Gesture Recognition.
+- RNNs are based on the same principles as those behind Feedforward NNs. Two main differences between RNNs and FFNNs.
+  - **Sequences** as inputs in the training phase.
+  - **Memory** elements.
+- Simple RNN is also known as Elman Network.
+- In RNNs, the state layer depended on the current inputs, their corresponding weights, the activation function and also on the previous state. In FFNNs, the hidden layer depended only on the current inputs and weights, as well as on an activation function.
+- The output vector is calculated in the exact same way as in FFNNs.
+  - Linear combination of the inputs to each output node with the corresponding weight matrix *W<sub>y</sub>*: *y<sub>t</sub> = s<sub>t</sub>W<sub>y</sub>*.
+  - Softmax function of the same linear combination: *y<sub>t</sub> = σ(s<sub>t</sub>W<sub>y</sub>)*.
+- 
 
 ## Generative Adversarial Networks (GANs)
 - **GANs** are used to generate realistic data.
