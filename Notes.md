@@ -24,7 +24,8 @@
 - The output vector is calculated in the exact same way as in FFNNs.
   - Linear combination of the inputs to each output node with the corresponding weight matrix *W<sub>y</sub>*: *y<sub>t</sub> = s<sub>t</sub>W<sub>y</sub>*.
   - Softmax function of the same linear combination: *y<sub>t</sub> = σ(s<sub>t</sub>W<sub>y</sub>)*.
-- 
+- In **Backpropagation Through Time (BPTT)**, we train the network at timestep *t* as well as take into account all of the previous timesteps.
+- **LSTM** is invented to solve **Vanishing Gradient** problem. **Gradient Clipping** is used to solve the **Exploding Gradient** problem. The LSTM cell allows a recurrent system to learn over many time steps without the fear of losing information due to the vanishing gradient problem. It is fully differentiable, therefore gives us the option of easily using backpropagation when updating the weights.
 
 ## Generative Adversarial Networks (GANs)
 - **GANs** are used to generate realistic data.
