@@ -27,6 +27,22 @@
 - In **Backpropagation Through Time (BPTT)**, we train the network at timestep *t* as well as take into account all of the previous timesteps.
 - **LSTM** is invented to solve **Vanishing Gradient** problem. **Gradient Clipping** is used to solve the **Exploding Gradient** problem. The LSTM cell allows a recurrent system to learn over many time steps without the fear of losing information due to the vanishing gradient problem. It is fully differentiable, therefore gives us the option of easily using backpropagation when updating the weights.
 
+## Long Short-Term Memory Networks (LSTMs)
+- Other learning materials:
+  - [Chris Olah's LSTM post](http://colah.github.io/posts/2015-08-Understanding-LSTMs/)
+  - [Edwin Chen's LSTM post](http://blog.echen.me/2017/05/30/exploring-lstms/)
+  - [Andrej Karpathy's lecture](https://www.youtube.com/watch?v=iX5V1WpxxkY)
+- An **LSTM** cell comprises:
+  - A **Learn Gate** combines the **Short-Term Memory** and the current **Event** and decides to keep the important parts of the combination. Thus, the output of the **Learn Gate** is *N<sub>t</sub> ⊙ i<sub>t</sub>* where:
+    - Combine: *N<sub>t</sub> = tanh(W<sub>n</sub>\[STM<sub>t-1</sub>, E<sub>t</sub>\] + b<sub>n</sub>)*
+    - Ignore: *i<sub>t</sub> = σ(W<sub>i</sub>\[STM<sub>t-1</sub>, E<sub>t</sub>\] + b<sub>i</sub>)*    
+  - A **Forget Gate** takes the **Long-Term Memory** and decides which parts of LTM to remember and to forget. Thus, the output of the **Forget Gate** is *LTM<sub>t-1</sub> ⊙ f<sub>t</sub>* where:
+    - Forget Factor: *f<sub>t</sub> = σ(W<sub>f</sub>\[STM<sub>t-1</sub>, E<sub>t</sub>\] + b<sub>f</sub>)*
+  - A **Remember Gate** combines the outputs of the **Learn Gate** and **Forget Gate** into a new **Long-Term Memory**. Thus, the output of the **Remember Gate** is *LTM<sub>t-1</sub> ⊙ f<sub>t</sub> + N<sub>t</sub> ⊙ i<sub>t</sub>*.
+  - A **Use Gate** combines the outputs of the **Learn Gate** and **Forget Gate** into a new **Short-Term Memory**. Thus, the output of the **Use Gate** is *U<sub>t</sub> ⊙ V<sub>t</sub>* where:
+    - *U<sub>t</sub> = tanh(W<sub>u</sub>LTM<sub>t-1</sub>f<sub>t</sub> + b<sub>u</sub>)*
+    - *V<sub>t</sub> = σ(W<sub>u</sub>\[STM<sub>t-1</sub>, E<sub>t</sub>\] + b<sub>u</sub>)*
+
 ## Generative Adversarial Networks (GANs)
 - **GANs** are used to generate realistic data.
 - Sample usecases:
@@ -47,3 +63,27 @@
   - Use **2 Optimisation Algorithms** to minimise the **loss of the discriminator (d_loss)** and the **loss of the generator (g_loss)**. **Adam** is a good choice for the optimiser. One common mistake is not to use the **numerically stable version of cross entropy** where the loss is computed using the logits. The logits are the values produced by the discriminator right before the sigmoid. One GAN-specific trick is to multiply the zero or one labels by a number that is just a little bit smaller than one so that you replace labels of one with labels of, e.g. 0.9, and keep the zero labels at 0. This is a GAN-specific example of the **label smoothing** strategy used to regularise normal classifiers. It helps the **discriminator** to generalise better and avoid learning to make extreme predictions when extrapolating.
   - **Convolution transpose** should be used to transform a narrow and short feature map to a tall and wide one.
   - **Batch normalisation** should be used in most layers of the network. The DCGAN authors recommend using batch normalisation on every layer except the output layer of the **generator** and the input layer of the **discriminator**. The authors also apply batch normalisation to all the real data in one mini-batch and then apply batch normalisation separately to another mini-batch containing all the generated samples.
+
+## Deploying a Model
+- **Machine Learning Workflow** consists of 3 main components:
+  - **Explore & Process Data**: 
+    - Step 1. Retrieve Data.
+    - Step 2. Clean & Explore the Data.
+    - Step 3. Prepare / Transform the Data.
+  - **Modelling**:
+    - Step 4. Develop & Train Model.
+    - Step 5. Validate / Evaluate Model.
+  - **Deployment**: 
+    - Step 6. Deploy to Production.
+    - Step 7. Monitor and Update Model & Data.
+- **Cloud Computing** can be thought of as transforming an *IT product* into an *IT service*. Generally, think of cloud computing as using an internet connected device to log into a **cloud computing service**, like *Google Drive*, to access an *IT resource*. These *IT resources* are stored in the cloud provider's data centre. Besides cloud storage, other cloud services include: cloud applications, databases, virtual machines, and other services like SageMaker.
+- Most of the factors related to choosing cloud computing services, instead of developing on-premise IT resources are related to **time** and **cost**.
+- **Benefits** of cloud computing:
+  - Reduced investments and proportional costs (providing cost reduction).
+  - Increased scalability (providing simplified capacity planning).
+  - Increased availability and reliability (providing organisational agility).
+- **Risks** of cloud computing:
+  - (Potential) Increase in security vulnerabilities.
+  - Reduced operational governance control (over cloud resources).
+  - Limited portability between cloud providers.
+  - Multi-regional compliance and legal issues.
