@@ -87,3 +87,15 @@
   - Reduced operational governance control (over cloud resources).
   - Limited portability between cloud providers.
   - Multi-regional compliance and legal issues.
+- **Deployment to production** can simply be thought of as a method that integrates a machine learning model into an existing production environment so that the model can be used to make *decisions* or *predictions* based upon *data input* into the model.
+- Paths to Deployment (Most to Least commonly used method):
+  1. Python model is *converted* into a format that can be used in the production environment.
+  2. Model is *coded* in *Predictive Model Markup Language* (PMML) or *Portable Format Analytics* (PFA).
+  3. Python model is *recorded* into the programming language of the production environment.
+- The 1<sup>st</sup> method is to build a Python model and use *libraries* and *methods* that *convert* the model into code that can be used in the *production environment*. Specifically most popular machine learning software frameworks, like PyTorch, TensorFlow, Sklearn, have methods that will convert Python models into *intermediate standard format*, like ONNX (*Open Neural Network Exchange* format). This *intermediate standard format* then can be *converted* into the software native to the *production environment*.
+  - This is the *easiest* and *fastest* way to move a Python model from *modelling* directly to *deployment*.
+  - Moving forward, this is typically the way models are *moved* into the *production environment*.
+  - Technologies like *containers*, *endpoints*, and *APIs* also help *ease* the *work* required for *deploying* a model into the *production environment*.
+- The 2<sup>nd</sup> method is to code the model in PMML or PFA, which are two complementary standards that *simplify* moving predictive models to *deployment* into a *production environment*. The Data Mining Group developed both PMML and PFA to provide vendor-neutral executable model specifications for certain predictive models used by data mining and machine learning. Certain analytic software allows for the direct import of PMML including but *not limited* to IBM, SPSS, R, SAS Base & Enterprise Miner, Apache Spark, Teradata Warehouse Miner, and TIBCO Spotfire.
+- The 3<sup>rd</sup> method, which involves recording the Python model into the language of the production environment, often Java or C++, is rarely used anymore because it takes time to recode, test, and validate the model that provides the *same* predictions as the *original* model.
+- **Deployment** is **not** commonly included in machine learning curriculum. This likely is associated with the analyst's typical focus on **Exploring and Processing Data** and **Modeling**, and the software developer's focusing more on **Deployment** and the *production environment*. Advances in cloud services, like SageMaker and ML Engine, and deployment technologies, like Containers and REST APIs, allow for analysts to easily take on the responsibilities of deployment.
