@@ -107,13 +107,13 @@
   - An *easy way* to think of an **API**, is as a *set of rules* that enable programs, here the **application** and the **model**, to *communicate* with each other.
   - **RE**presentational **S**tate **T**ransfer, **REST**, architecture is one that uses **HTTP requests** and **responses** to enable communication between the **application** and the **model** through the **endpoint (interface)**.
   - Both **HTTP requests** and **HTTP response** are communications sent between the **application** and the **model**.
+
+![endpointprogram_2]()
+
 - The **HTTP request** that's sent from your application to your **model** is composed of four parts:
   - **Endpoint**: in the form of a URL, which is commonly known as a web address.
   - **HTTP method**: for the purposes of **deployment**, our application will use the **POST** method only.
-  
-  |HTTP Methods|GET|POST|PUT|DELETE|
-  |:-:|:-:|:-:|:-:|:-:|
-  |Request Action|READ: This request is used to retrieve information. If the information is found, it's sent back as a response|CREATE: This request is used to create new information. Once a new entry is created, it's sent back as the response|UPDATE: This request is used to update information. The PATCH method also updates information, but it's only a partial update with PATCH.|DELETE: This request is used to delete information|
+  ![httpmethods]()
   - **HTTP Headers**: contains additional information, like the format of the data within the message, that's passed to the *receiving* program.
   - **Message (Data or Body)**: for **deployment**, message contains the *user's data* which is input into the model.
 - The **HTTP response** sent from your model to your application is composed of three parts:
@@ -140,7 +140,7 @@
     - **Libraries** and **binaries** required to launch, run, and maintain the next layer.
     - Application layer.
 
-![]()
+![container_1]()
 
 - The architecture of containers provides the following advantages:
   1. Isolates the application, which **increases** security.
@@ -149,4 +149,4 @@
   4. Provides a simpler and more secure way to replicate, save, and share containers.
 - The **container script** is simply the instructions (algorithm) that is used to create a container; for Docker, these container scripts are referred to as **dockerfiles**.
 
-![]()
+![container_2]()
