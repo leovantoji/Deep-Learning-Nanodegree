@@ -126,4 +126,27 @@
 - Notes regarding the *information* included in the **HTTP messages** sent between the **application** and the **model**:
   - Often *user's data* will need to be in a *CSV* or *JSON* format with a specific *ordering* of the data that's dependent upon the **model** used.
   - Often *output* will be returned in *CSV* or *JSON* format with a specific *ordering* of the returned *output* dependent upon the **model** used.
-  
+- Both the **model** and the **application** require a *computing environment* so that they can be run and available for use. One way to *create* and *maintain* these *computing environments* is through the use of **containers**. Specifically, the **model** and the **application** can each be run in a **container** *computing environment*. The **containers** are created using a **script** that contains instructions on which software packages, libraries, and other computing attributes are needed in order to run a *software application*, in our case either the **model** or the **application**.
+- A **container** can be thought of as a *standardised collection/bundle of software* that is to be *used* for the specific purpose of *running an application*. A common **container** software is *Docker*.
+- A *Docker* containers can:
+  - Contain **all** types of different software.
+  - The structure of a Docker container enables the container to be created, saved, used, and deleted through a set of common tools.
+  - The common tool set works with any container regardless of the software the container contains.
+- Basic structure of a container:
+  - The **underlying computational infrastructure** which can be: a cloud provider's data centre, an on-premise data centre, or even someone's local computer.
+  - An **operating system** run on this computational infrastructure, this could be the operating system of your local machine.
+  - A **container engine**, which could be the Docker software running on your local computer. The container engine software enables one to create, save, use, and delete containers.
+  - Final two layers:
+    - **Libraries** and **binaries** required to launch, run, and maintain the next layer.
+    - Application layer.
+
+![]()
+
+- The architecture of containers provides the following advantages:
+  1. Isolates the application, which **increases** security.
+  2. Requires only software needed to run the application, which uses computational resources **more efficiently** and allows for faster application deployment.
+  3. Makes application creation, replication, deletion, and maintenance easier and the same across all applications that are deployed using containers.
+  4. Provides a simpler and more secure way to replicate, save, and share containers.
+- The **container script** is simply the instructions (algorithm) that is used to create a container; for Docker, these container scripts are referred to as **dockerfiles**.
+
+![]()
