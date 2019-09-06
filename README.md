@@ -152,3 +152,5 @@
 - The **container script** is simply the instructions (algorithm) that is used to create a container; for Docker, these container scripts are referred to as **dockerfiles**.
 
 ![container_2]()
+
+- Since a container is not a full virtual machine, it's lighter weight on the OS, which means application can run using little overheads. We can update the container script with new dependencies and create new container with updated softwares.
