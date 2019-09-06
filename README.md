@@ -113,7 +113,9 @@
 - The **HTTP request** that's sent from your application to your **model** is composed of four parts:
   - **Endpoint**: in the form of a URL, which is commonly known as a web address.
   - **HTTP method**: for the purposes of **deployment**, our application will use the **POST** method only.
+  
   ![httpmethods]()
+  
   - **HTTP Headers**: contains additional information, like the format of the data within the message, that's passed to the *receiving* program.
   - **Message (Data or Body)**: for **deployment**, message contains the *user's data* which is input into the model.
 - The **HTTP response** sent from your model to your application is composed of three parts:
