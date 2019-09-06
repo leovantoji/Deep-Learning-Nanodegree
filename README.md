@@ -112,6 +112,18 @@
   - **HTTP method**: for the purposes of **deployment**, our application will use the **POST** method only.
   
   |HTTP Methods|GET|POST|PUT|DELETE|
-  |:-:|:-|:-|:-|:-|
+  |:-:|:-:|:-:|:-:|:-:|
   |Request Action|READ: This request is used to retrieve information. If the information is found, it's sent back as a response|CREATE: This request is used to create new information. Once a new entry is created, it's sent back as the response|UPDATE: This request is used to update information. The PATCH method also updates information, but it's only a partial update with PATCH.|DELETE: This request is used to delete information|
-  - 
+  - **HTTP Headers**: contains additional information, like the format of the data within the message, that's passed to the *receiving* program.
+  - **Message (Data or Body)**: for **deployment**, message contains the *user's data* which is input into the model.
+- The **HTTP response** sent from your model to your application is composed of three parts:
+  - **HTTP Status Code**: If the model sucessfully received and processed the *user's data* that was sent in the **message**, the status code should start with a 2, like *200*.
+  - **HTTP Headers**: contains additional information, like the format of the data within the **message**, that's passed to the receiving program.
+  - **Message (Data or Body)**: What's returned as the *data* within the **message** is the *output* provided by the **model**.
+- Following **REST***ful* **API**, the **application** is responsible to:
+  - Format the *user's data* in a way that can be easily put into the **HTTP request message** and **used** by the **model**.
+  - Translate the *output* from the **HTTP response message** in a way that's easy for the *application user* to understand.
+- Notes regarding the *information* included in the **HTTP messages** sent between the **application** and the **model**:
+  - Often *user's data* will need to be in a *CSV* or *JSON* format with a specific *ordering* of the data that's dependent upon the **model** used.
+  - Often *output* will be returned in *CSV* or *JSON* format with a specific *ordering* of the returned *output* dependent upon the **model** used.
+  
