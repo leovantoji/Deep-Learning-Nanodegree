@@ -109,13 +109,11 @@
   - Both **HTTP requests** and **HTTP response** are communications sent between the **application** and the **model**.
 
 ![endpointprogram_2]()
-
 - The **HTTP request** that's sent from your application to your **model** is composed of four parts:
   - **Endpoint**: in the form of a URL, which is commonly known as a web address.
   - **HTTP method**: for the purposes of **deployment**, our application will use the **POST** method only.
   
   ![httpmethods]()
-  
   - **HTTP Headers**: contains additional information, like the format of the data within the message, that's passed to the *receiving* program.
   - **Message (Data or Body)**: for **deployment**, message contains the *user's data* which is input into the model.
 - The **HTTP response** sent from your model to your application is composed of three parts:
@@ -143,7 +141,6 @@
     - Application layer.
 
 ![container_1]()
-
 - The architecture of containers provides the following advantages:
   1. Isolates the application, which **increases** security.
   2. Requires only software needed to run the application, which uses computational resources **more efficiently** and allows for faster application deployment.
@@ -152,7 +149,6 @@
 - The **container script** is simply the instructions (algorithm) that is used to create a container; for Docker, these container scripts are referred to as **dockerfiles**.
 
 ![container_2]()
-
 - Since a container is not a full virtual machine, it's lighter weight on the OS, which means application can run using little overheads. We can update the container script with new dependencies and create new container with updated softwares.
 - Characteristics of **Deployment**:
   - **Model Versioning**: One characteristic of deployment is the version of the model that is to be deployed. Besides saving the **model version** as a part of a *model's metadata* in a database, the *deployment platform* should allow one to indicate a deployed **model's version**. This will make it easier to maintain, monitor, and update the *deployed model*.
@@ -173,13 +169,17 @@
       - Cloud services typically have *limits* to how much data they can process with each batch request based upon *limits* they impose on the *size of file* you can store in their cloud storage service. For example, *Amazon's SageMaker* limits batch predictions requests to the size limit they enforce on an object in their S3 storage service.
       - **Batch predictions** are commonly used to help make *business decisions*. For example, imagine a business uses a complex model to predict customer satisfaction across a number of their products and they need these estimates for a weekly report. This would require processing customer data through a **batch prediction** request on a weekly basis.
 - Formal definition of **cloud computing**.
+
 [nistcloudcomputing]()
 - **Service Models of Cloud Computing**:
   - **Software as a Service (SaaS)**:
+  
   [nist-cloudcomputing-servicemodelssaas]()
   - **Platform as a Service (PaaS)**:
+  
   [nist-cloudcomputing-servicemodelspaas]()
   - **Infrastructure as a Service (SaaS)**:
+  
   [nist-cloudcomputing-servicemodelsiaas]()
 - **Deployment Models of Cloud Computing**: Different levels of security are automatically provided with each deployment model. Uderstanding deployment models are important in providing the appropriate level of security on the cloud services you use. The primary way to distinguish between different deployment models is by the group that's provisioning the cloud services. With provisioning, we simply mean the group that's providing the cloud services for their group's use.
   - **Public Cloud**: Most cloud deployment models offered by cloud providers, like Amazon Web Service or Google Cloud Platform, are public clouds. Public clouds are provisioned for use by the general public and they are the least secure of the deployment models. Because public clouds are the least secure, most providers allow customers to enable features that provide a "virtual private cloud" to increase the security on their public clouds.
@@ -193,8 +193,11 @@
   - **Measured Service**: allows the cloud provider’s system to automatically control and optimise resource usage by leveraging the system’s metering capability. Specifically, the cloud provider’s resource usage can be monitored, controlled, and reported, which provides the necessary transparency for appropriately billing customers for cloud service usage. Using our example of cloud storage, Measured Service enables the cloud provider to charge a customer appropriately for storage space they are using to store their files.
 - **Capacity Utilisation Graph**:
   - **Wasted Capacity**:
+  
   [capacityutilizationcurve-wastedcap4]()
   - **Insufficient Capacity**:
+  
   [capacityutilizationcurve-insufficientcap3]()
   - **Dynamic Capacity**:
+  
   [capacityutilizationcurve-dynamiccap4]()
