@@ -201,3 +201,5 @@
   - **Dynamic Capacity**:
   
   [capacityutilizationcurve-dynamiccap4]()
+
+## Building a Model using Amazon SageMaker
