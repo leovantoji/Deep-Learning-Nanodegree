@@ -203,3 +203,20 @@
   [capacityutilizationcurve-dynamiccap4]()
 
 ## Building a Model using Amazon SageMaker
+- **SageMaker session** is a special object that allows you to do things like manage data in S3 and create and train any machine learning models; you can read more about the functions that can be called on a session [here](https://sagemaker.readthedocs.io/en/latest/session.html).
+- **SageMaker role**, sometimes called the execution role, is the IAM role that you created when you initialised a notebook instance. The role basically defines how data that your notebook uses/creates will be stored. You can even try printing out the role with `print(role)` to see the details of this creation.
+- **S3 (Simple Storage Service)** is a virtual storage solution that is mostly meant for data to be written to few times and read from many times. This is, in some sense, the main workhorse for data storage and transfer when using Amazon services. These are similar to file folders that contain data and metadata about that data, such as the data size, date of upload, author, and so on.
+- A **Training job** is used to train a specific estimator. Few items need to be provided before a training job can be executed:
+  1. A location on S3 where your training (and possibly validation) data is stored.
+  2. A location on S3 where the resulting model will be stored (this data is called the **model artifacts**).
+  3. A location of a docker container (certainly this is the case if using a built-in algorithm) to be used for training.
+  4. A description of the compute instance that should be used.
+- Once all of the abovementioned information is provided, SageMaker will execute the necessary instance (CPU or GPU), load up the necessary docker container and execute it, passing in the location of the training data. After the container finish training the model, the model artifacts will be stored on S3.
+- The **transformer** is used to create a transform job and **evaluate a trained model**. The `transform` function takes in the location of some test data and some information about how that test data is formatted.
+- In SageMaker, a **model** is a collection of information that describes how to perform inference. For the most part, this comprises two very important pieces:
+  1. The container that holds the model inference functionality. For different types of models, this code may be different, but for simpler models and built-in models, this is typically the same container that was used to train the model.
+  2. Model artifacts. These are the pieces of data that were created during the training process. For instance, if we were fitting a linear model then the coefficients that were fit would be saved as model artifacts.
+- When a model is `fit` using SageMaker, the process is as follows:
+  1. A compute instance (basically a server somewhere) is started up with the properties that we specified.
+  2. When the compute instance is ready, the code, in the form of a container, that is used to fit the model is loaded and executed. When this code is executed, it is provided access to the training (and possibly validation) data stored on S3.
+  3. Once the compute instance has finished fitting the model, the resulting model artifacts are stored on S3, and the compute instance is shut down.
