@@ -220,3 +220,11 @@
   1. A compute instance (basically a server somewhere) is started up with the properties that we specified.
   2. When the compute instance is ready, the code, in the form of a container, that is used to fit the model is loaded and executed. When this code is executed, it is provided access to the training (and possibly validation) data stored on S3.
   3. Once the compute instance has finished fitting the model, the resulting model artifacts are stored on S3, and the compute instance is shut down.
+
+## Deploying and Using a Model
+- Using the high level approach makes deploying a trained model pretty straightforward. All we need to do is call the `deploy` method and SageMaker will take care of the rest.
+- Sending data to the deployed endpoint and capturing the resulting inference is simple too as SageMaker wraps everything up into the `predict` method, provided we make sure that our data is serialised correctly. In our case, serialising means converting the data structure we wish to send to our endpoint into a string, something that can be transferred using HTTP.
+- The cost of a deployed endpoint is based on the length of time that it is running. This means that if you aren't using an endpoint, you **REALLY NEED TO SHUT IT DOWN**.
+- Using the low level approach to deploy our model requires us to create an endpoint which will be used to send data to our model and to get inference results.
+- In order to create an endpoint in SageMaker, we first need to give SageMaker an endpoint configuration containing various properties we want our endpoint to have. Once we have created the endpoint configuration, we can ask SageMaker to create an endpoint with the properties we want.
+- The actual endpoint that is created by SageMaker is a combination of a compute instance running a docker container with the inference code on it and a URL (an endpoint) that data can be sent to and returned from. This URL is used as an interface to the compute instance, which receives data, performs inference using our model and returns the result.
