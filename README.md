@@ -228,3 +228,36 @@
 - Using the low level approach to deploy our model requires us to create an endpoint which will be used to send data to our model and to get inference results.
 - In order to create an endpoint in SageMaker, we first need to give SageMaker an endpoint configuration containing various properties we want our endpoint to have. Once we have created the endpoint configuration, we can ask SageMaker to create an endpoint with the properties we want.
 - The actual endpoint that is created by SageMaker is a combination of a compute instance running a docker container with the inference code on it and a URL (an endpoint) that data can be sent to and returned from. This URL is used as an interface to the compute instance, which receives data, performs inference using our model and returns the result.
+- **Text Pre-Processing steps**:
+  1. Get rid of any special characters like punctuation.
+  2. Convert all text to lowercase and split into individual words.
+  3. Create a vocabulary that assigns each unique word a numerical value or converts words into a vector of numbers. This is often called **word tokenisation** or **vectorisation**.
+- **Function as a Service (FaaS)** is a category of cloud computing services that provides a platform allowing customers to develop, run, and manage application functionalities without the complexity of building and maintaining the infrastructure typically associated with developing and launching an app. Building an application following this model is one way of achieving a **serverless** architecture, and is typically used when building **microservices** applications.
+- Amazon Lambda is an example of **FaaS**.
+- **Creating and Using Endpoints**:
+  1. You can start an endpoint by calling `.deploy()` on an estimator and passing in some information about the instance.
+  ```python
+  xbg_predictor = xgb.deploy(initial_instance_count=1, instance_type='ml.m4.xlarge')
+  ```
+  2. Then, you need to your endpoint what type of data it expects to see as input (e.g. csv).
+  ```python
+  from sagemaker.predictor import csv_serializer
+  
+  xgb_predictor.content_type = 'text/csv'
+  xgb_predictor.serializer = csv_serializer
+  ```
+  3. Then perform inference; you can pass some data as the "Body" of a message to an endpoint and get a response back.
+  ```python
+  response = runtime.invoke_endpoint(EndpointName=xgb_predictor.endpoint, # name of the endpoint
+                                     ContentType='text/csv', # the expected data format
+                                     Body=','.join([str(val) for val in test_bow]).encode('utf-8'))
+  ```
+  4. The inference data is stored in the "Body" of the response, and can be retrieved:
+  ```python
+  response = response['Body'].read().decode('utf-8')
+  print(response)
+  ```
+  5. Finally, do not forget to **shut down your endpoint** when you finish using it.
+  ```python
+  xgb_predictor.delete_endpoint()
+  ```
