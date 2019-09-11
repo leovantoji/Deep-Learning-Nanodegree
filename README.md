@@ -233,7 +233,7 @@
   2. Convert all text to lowercase and split into individual words.
   3. Create a vocabulary that assigns each unique word a numerical value or converts words into a vector of numbers. This is often called **word tokenisation** or **vectorisation**.
 - **Function as a Service (FaaS)** is a category of cloud computing services that provides a platform allowing customers to develop, run, and manage application functionalities without the complexity of building and maintaining the infrastructure typically associated with developing and launching an app. Building an application following this model is one way of achieving a **serverless** architecture, and is typically used when building **microservices** applications.
-- Amazon Lambda is an example of **FaaS**.
+- Amazon Lambda function is an example of **FaaS**. It allows you to perform actions in response to certain trigger events. Essentially, you get to describe some events of interest, and when those events occur, the code is executed.
 - **Creating and Using Endpoints**:
   1. You can start an endpoint by calling `.deploy()` on an estimator and passing in some information about the instance.
   ```python
