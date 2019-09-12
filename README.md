@@ -261,3 +261,47 @@
   ```python
   xgb_predictor.delete_endpoint()
   ```
+
+## Hyperparamter Tuning with SageMaker
+- SageMaker does hyperparameter tuning using Bayesian optimisation.
+  - We start with a **base** collection of hyperparameters which describe a default model. We then give some additional set of hyperparameter ranges. These ranges will tell SageMaker which hyperparameters can be varied, with the goal to improve the default model.
+  - We then specify a metric which will be used to determine which model performs the best.
+  
+  ```python
+  # base estimator
+  container = get_image_uri(session.boto_region_name, 'xgboost')
+  
+  xgb = sagemaker.estimator.Estimator(container,
+                                      role,
+                                      train_instance_count=1,
+                                      train_instance_type='ml.m4.xlarge',
+                                      output_path='s3://{}/{}/output'.format(session.default_bucket(), prefix),
+                                      sagemaker_session=session)
+  
+  xgb.set_hyperparameters(max_depth=5,
+                          eta=0.2,
+                          gamma=4,
+                          min_child_weight=6,
+                          subsample=0.8,
+                          objective='reg:linear',
+                          early_stopping_rounds=10,
+                          num_round=200)
+  
+  # hyperparameter tuning
+  from sagemaker.tuner import IntegerParameter, ContinuosParameter, Hyperparameter
+  
+  xgb_hyperparameter_tuner = HyperparameterTuner(estimator=xgb, # The base estimator
+                                                 objective_metric_name='validation:rmse', # The metric
+                                                 objective_type='Minimize', # Objective is to minimise the metric
+                                                 max_jobs=20, # Total number of models to train
+                                                 max_parallel_jobs=3, # Total number of models to train in parallel
+                                                 hyperparameter_ranges={
+                                                    'max_depth': IntegerParameter(3,12),
+                                                    'eta': ContinuousParameter(0.05, 0.5),
+                                                    'min_child_weight': IntegerParameter(2, 8),
+                                                    'subsample': ContinuousParameter(0.5, 0.9),
+                                                    'gamma': ContinuousParameter(0, 10)
+                                                 })
+  ```
+- **Amazon CloudWatch service** provides a user interface through which we can examine various logs generated during training. This can be useful when diagnosing errors. 
+- The `attach` method can be used to create an `Estimator` object which is attached to an already completed training job.
