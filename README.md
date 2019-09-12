@@ -305,3 +305,6 @@
   ```
 - **Amazon CloudWatch service** provides a user interface through which we can examine various logs generated during training. This can be useful when diagnosing errors. 
 - The `attach` method can be used to create an `Estimator` object which is attached to an already completed training job.
+- Creating a hyperparameter tuning job using the low level approach requires us to describe 2 different things.
+  - Define a training job that will be used as the **base** job for the hyperparameter tuning task. This training job description is almost exactly the same as the standard training job description except that instead of specifying HyperParameters we specify Static HyperParameters - which are the hyperparameters that we do **not** want to change in the various iterations.
+  - Describe the tuning job.
