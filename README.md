@@ -220,6 +220,15 @@
   1. A compute instance (basically a server somewhere) is started up with the properties that we specified.
   2. When the compute instance is ready, the code, in the form of a container, that is used to fit the model is loaded and executed. When this code is executed, it is provided access to the training (and possibly validation) data stored on S3.
   3. Once the compute instance has finished fitting the model, the resulting model artifacts are stored on S3, and the compute instance is shut down.
+- Glossary of terms:
+  - **Notebook Instances** provide a convenient place to process and explore data in addition to making it very easy to interact with the rest of SageMaker's features.
+  - **Training Jobs** allow us to create *model artifacts* by fitting various machine learning models to data.
+  - **Hyperparameter Tuning** allows us to create multiple training jobs each with different hyperparameters in order to find the best performing set of hyperparameters for a given problem.
+  - **Models** are essentially a combination of *model artifacts* formed during a training job and an associated docker container (code) that is used to perform inference.
+  - **Endpoint Configurations** act as blueprints for endpoints. They describe what sort of resources should be used when an endpoint is constructed along with which models should be used and, if multiple models are to be used, how the incoming data should be split up among the various models.
+  - **Endpoints** are the actual HTTP URLs that are created by SageMaker and have properties specified by their corresponding endpoint configurations. Remember to **SHUT DOWN YOUR ENDPOINTS** if you're not using them.
+  - **Batch Transform** is the method by which you can perform inference on a whole bunch of data at once. In contrast, setting up an endpoint allows you to perform inference on small amounts of data by sending it to the endpoint bit by bit.
+  - **S3** was used as a central repository for data storage. We have also learned how to combine a deployed SageMaker endpoint with **Lambda** and **API Gateway** to create a simple web app.
 
 ## Deploying and Using a Model
 - Using the high level approach makes deploying a trained model pretty straightforward. All we need to do is call the `deploy` method and SageMaker will take care of the rest.
@@ -308,3 +317,7 @@
 - Creating a hyperparameter tuning job using the low level approach requires us to describe 2 different things.
   - Define a training job that will be used as the **base** job for the hyperparameter tuning task. This training job description is almost exactly the same as the standard training job description except that instead of specifying HyperParameters we specify Static HyperParameters - which are the hyperparameters that we do **not** want to change in the various iterations.
   - Describe the tuning job.
+- **SageMaker Documentation**:
+  - Developer Documentation can be found [here](https://docs.aws.amazon.com/sagemaker/latest/dg/).
+  - Python SDK Documentation (also known as the high level approach) can be found [here](https://sagemaker.readthedocs.io/en/latest/).
+  - Python SDK Code can be found on github [here](https://github.com/aws/sagemaker-python-sdk).
