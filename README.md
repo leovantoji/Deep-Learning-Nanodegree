@@ -3,6 +3,15 @@
 ![Certificate]()
 
 ## Overview
-|Term|Official Duration|Date of Compeletion|Projects|
-|:-:|:-:|:-:|-|
-|1|20 Feb - 8 May 2019|20 Mar 2019|<ul><li>Predicting Boston Housing Prices</li><li>Finding Donors for CharityML</li><li>Creating Customer Segments</li></ul>|
+|Official Duration|Projects|
+|:-:|-|
+|Apr - Oct 2019|<ul><li>Predicting Bike-Sharing Patterns</li><li>Dog-Breed Classifier</li><li>Generate TV Scripts</li><li>Generate Faces</li><li>Deploy a Model (AWS)</li></ul>|
+
+## Course Contents:
+- Neural Networks.
+- Convolutional Neural Networks.
+- Recurrent Neural Networks.
+  - LSTM.
+- Generative Adversarial Networks.
+- Deploy a Model.
+- Cloud Technology.
