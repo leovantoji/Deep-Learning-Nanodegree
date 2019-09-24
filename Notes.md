@@ -1,4 +1,26 @@
 # Deep-Learning-Nanodegree
+## Deep Learning with PyTorch
+  - Define the network somewhat more concisely and clearly using the `torch.nn.functional` module. This is the most common way to define network as many operations are simple element-wise functions. `torch.nn.functional` module is usually imported as `F`.
+  ```python
+  import torch.nn.functional as F
+  
+  class Network(nn.Module):
+    def __init__(self):
+      super.__init__()
+      # inputs to hidden layer linear transformation
+      self.hidden = nn.Linear(784, 256)
+      # output layer, 10 units - one for each digit
+      self.output = nn.Linear(256, 10)
+      
+    def foward(self, x):
+      # hidden layer with sigmoid activation
+      x = F.sigmoid(self.hidden(x))
+      # output layer with softmaxx activation
+      x = F.softmax(self.output(x), dim=1)
+      
+      return x
+  ```
+
 ## Recurrent Neural Networks (RNNs)
 - Recurrent Neural Networks give us a way to incorporate **memory** into our neural networks, and will be critical in analysing sequential data. RNN's are most often associated with **text processing** and **text generation** because of the way sentences are structured as a sequence of words.
 - RNNs have a key flaw, as capturing relationships that span more than 8 or 10 steps back is practically impossible. The flaw stems from the **vanishing gradient** problem in which the contribution of information decays geometrically over time. **LSTM** is one option to overcome the **vanishing gradient** problem in RNNs.
@@ -42,6 +64,9 @@
   - A **Use Gate** combines the outputs of the **Learn Gate** and **Forget Gate** into a new **Short-Term Memory**. Thus, the output of the **Use Gate** is *U<sub>t</sub> ⊙ V<sub>t</sub>* where:
     - *U<sub>t</sub> = tanh(W<sub>u</sub>LTM<sub>t-1</sub>f<sub>t</sub> + b<sub>u</sub>)*
     - *V<sub>t</sub> = σ(W<sub>u</sub>\[STM<sub>t-1</sub>, E<sub>t</sub>\] + b<sub>u</sub>)*
+
+## Implementing RNNs and LSTM
+- 
 
 ## Generative Adversarial Networks (GANs)
 - **GANs** are used to generate realistic data.
