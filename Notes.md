@@ -49,6 +49,11 @@
       print(f'Training loss: {running_loss/len(trainloader)}')  
   ```
 
+- Trips and tricks:
+  - **Tensors' shapes**: make use of `.shape` method during debugging and development. Need to check that the tensors going through the model and other code are in the correct shapes.
+  - **Clear the gradients** in the training loop with `optimizer.zero_grad()`. If you're doing a validation loop, make sure to set the network to evaluation mode with `model.eval()` then go back to training model with `mode.train()`.
+  - **CUDA errors**: PyTorch can only perform operations on tensors that are on the same device, so either both CPU or both GPU. If you're trying to run your network on the GPU, check to make sure that you've moved the model and all necessary tensors to the GPU with `.to(device)` where `device` is either `cuda` or `cpu`.
+
 ## Recurrent Neural Networks (RNNs)
 - Recurrent Neural Networks give us a way to incorporate **memory** into our neural networks, and will be critical in analysing sequential data. RNN's are most often associated with **text processing** and **text generation** because of the way sentences are structured as a sequence of words.
 - RNNs have a key flaw, as capturing relationships that span more than 8 or 10 steps back is practically impossible. The flaw stems from the **vanishing gradient** problem in which the contribution of information decays geometrically over time. **LSTM** is one option to overcome the **vanishing gradient** problem in RNNs.
