@@ -20,6 +20,34 @@
       
       return x
   ```
+  - Training a neural network:
+  ```python
+  from torch import optim
+  
+  model = nn.Sequential(nn.Linear(784, 128),
+                        nn.ReLU(),
+                        nn.Linear(128, 64),
+                        nn.ReLU(),
+                        nn.Linear(64, 10),
+                        nn.LogSoftmax(dim=1))
+  
+  criterion = nn.NLLLoss()
+  optimizer = optim.SGD(model.parameters(), lr=0.003)
+  
+  epochs = EPOCHS
+  for e in range(epochs):
+    running_loss = 0
+    for images, labels in trainloader:
+      images = images.view(images.shape[0], -1) # Flatten MNIST images into a 784 long vector
+      optimizer.zero_grad() # Clear the gradients because gradients are accumulated
+      output = model.forward(images)
+      loss = criterion(output, labels)
+      loss.backward()
+      optimizer.step()
+      running_loss += loss.item()
+    else:
+      print(f'Training loss: {running_loss/len(trainloader)}')  
+  ```
 
 ## Recurrent Neural Networks (RNNs)
 - Recurrent Neural Networks give us a way to incorporate **memory** into our neural networks, and will be critical in analysing sequential data. RNN's are most often associated with **text processing** and **text generation** because of the way sentences are structured as a sequence of words.
