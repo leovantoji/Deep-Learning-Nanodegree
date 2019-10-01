@@ -40,10 +40,10 @@
     for images, labels in trainloader:
       images = images.view(images.shape[0], -1) # Flatten MNIST images into a 784 long vector
       optimizer.zero_grad() # Clear the gradients because gradients are accumulated
-      output = model.forward(images)
-      loss = criterion(output, labels)
-      loss.backward()
-      optimizer.step()
+      output = model.forward(images) # Forward pass
+      loss = criterion(output, labels) # Calculate loss
+      loss.backward() # Backward pass
+      optimizer.step() # Update weights
       running_loss += loss.item()
     else:
       print(f'Training loss: {running_loss/len(trainloader)}')  
