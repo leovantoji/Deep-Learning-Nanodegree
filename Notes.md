@@ -48,7 +48,91 @@
     else:
       print(f'Training loss: {running_loss/len(trainloader)}')  
   ```
+- Loading Image data: The easiest way to load image data is with `datasets.ImageFolder` from `torchvision`. For instance:
+  ```python
+  dataset = datasets.ImageFolder('path/to/data', transform=transforms)
+  ```
+  - `'path/to/data'` is the file path to the data directory.
+  - `transforms` is a list of processing steps built with `transforms` module from `torchvision`. When you load in the data with `ImageFolder`, you'll have to define some transforms. Typically, you'll combine various transforms into a pipeline with `transforms.Compose()`, which accepts a list of transforms and runs them in sequence. For example:
+    ```python
+    transforms = transforms.Compose([transforms.Resize(255),
+                                     transforms.CenterCrop(224),
+                                     transforms.ToTensor()])
+    ```
+  - With the `ImageFolder` loaded, you'll have to pass it to a `DataLoader`. The `DataLoader` takes a dataset and returns batches of images and the corresponding labels. `dataloader` is a generator, so you need to loop through it or convert it to an iterator and call `next()` in order to get data out of it. For instance:
+    ```python
+    dataloader = torch.utils.data.DataLoader(dataset, batch_size=64, shuffle=True)
+    
+    # Looping through it, get a batch on each loop
+    for images, labels in dataloader:
+      pass
+    
+    # Get one batch
+    images, labels = next(iterator(dataloader))
+    ```
+- Data Augmentation: Below is an example of `transforms` pipeline to randomly rotate, scale and crop, and flip your images. Normalization of images is a common transform. A list of means and a list of standard deviations are passed in as input. The color channels will then be normalized as follow. `input[channel] = (input[channel] - mean[channel]) / std[channel]`.
+  ```python
+  train_transforms = transforms.Compose([transforms.RandomRotation(30),
+                                         transforms.RandomResizedCrop(100),
+                                         transforms.RandomHorizontalFlip(),
+                                         transforms.ToTensor()
+                                         transforms.Normalize([0.5, 0.5, 0.5],
+                                                              [0.5, 0.5, 0.5])])
+  ```
+- Transfer Learning: you can download pre-trained network from `torchvision.models` and use them in your applications. For instance:
+  ```python
+  from torchvision import models
+  
+  # Load pre-trained model
+  model = models.densenet121(pretrained=True)
+  
+  # Freeze the feature parameters
+  for param in model.parameters():
+    param.requires_grad = False
+  
+  # Define a new classifier and replace existing classifier with the new one
+  from collections import OrderedDict
+  classifier = nn.Sequential(OrderedDict([
+    ('fc1', nn.Linear(1024, 500)),
+    ('relu', nn.ReLU()),
+    ('fc2', nn.Linear(500, 2)),
+    ('ouput', nn.LogSoftmax(dim=1))
+  ]))
+  
+  model.classifier = classifier
+  ```
+  - Check if GPU is available:
+    ```python
+    cuda = torch.cuda.is_available()
+    ```
+  - GPU training:
+    ```python
+    import time
 
+    for cuda in [False, True]:
+      criterion = nn.NLLLoss()
+      optimizer = optim.Adam(model.classifier.parameters(), lr=0.001)
+
+      if cuda: model.cuda()
+      else: model.cpu()
+
+      for ii, (inputs, labels) in enumerate(trainloader):
+        inputs, labels = Variable(inputs), Variable(labels)
+
+        if cuda: 
+          inputs, labels = inputs.cuda(), labels.cuda()
+
+        start = time.time()
+
+        outputs = model.forward(inputs)
+        loss = criterion(ouputs, labels)
+        loss.backward()
+        optimizer.step()
+
+        if ii==3: break
+
+       print(f'CUDA = {cuda}; Time per batch: {(time.time() - start)/3:.3f} seconds
+    ```
 - Trips and tricks:
   - **Tensors' shapes**: make use of `.shape` method during debugging and development. Need to check that the tensors going through the model and other code are in the correct shapes.
   - **Clear the gradients** in the training loop with `optimizer.zero_grad()`. If you're doing a validation loop, make sure to set the network to evaluation mode with `model.eval()` then go back to training model with `mode.train()`.
