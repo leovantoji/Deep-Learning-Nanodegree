@@ -105,9 +105,9 @@
   ```
   - Check if GPU is available:
     ```python
-    cuda = torch.cuda.is_available()
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     ```
-  - GPU training:
+  - GPU vs. CPU:
     ```python
     import time
 
@@ -134,6 +134,67 @@
         if ii==3: break
 
        print(f'CUDA = {cuda}; Time per batch: {(time.time() - start)/3:.3f} seconds
+    ```
+  - Transfer learning:
+    ```python
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    
+    model = models.resnet50(pretrained=True)
+    for param in model.parameters():
+      param.requires_grad = False
+      
+    classifier = nn.Sequential(nn.Linear(2048, 512),
+                          nn.ReLU(),
+                          nn.Dropout(p=0.2),
+                          nn.Linear(512, 2),
+                          nn.LogSoftmax(dim=1))
+    
+    model.fc = classifier
+    
+    criterion = nn.NLLLoss()
+    optimizer = optim.Adam(model.fc.parameters(), lr=0.001)
+    model.to(device)
+    
+    epochs = 1
+    steps = 0
+    running_loss = 0
+    print_every = 5
+    
+    for epoch in range(epochs):
+      for images, labels in trainloader:
+        steps += 1
+        images, labels = images.to(device), labels.to(device)
+        optimizer.zero_grad()
+        logps = model(images)
+        loss = criterion(logps, labels)
+        loss.backward()
+        optimizer.step()
+        running_loss += loss.item()
+        
+        if step %% print_every == 0:
+          model.eval()
+          test_loss = 0
+          accuracy = 0
+          
+          for images, labels in testloader:
+            images, labels = images.to(device), labels.to(device)
+            
+            logps = model(images)
+            loss = criterion(logps, labels)
+            test_loss += loss.item()
+            
+            ps = torch.exp(logps) # accuracy
+            top_ps, top_class = ps.topk(1, dim=1)
+            equality = top_class == labels.view(*top_class.shape)
+            accuracy += torch.mean(equality.type(torch.FloatTensor)).item()
+            
+          print(f'Epoch {epoch+1}/{epochs}.. '
+                f'Train loss: {running_loss/print_every:.3f}.. '
+                f'Test loss: {test_loss/len(testloader):.3f}.. '
+                f'Test accuracy: {accuracy/len(testloader):.3f}')
+          
+          running_loss = 0
+          model.train()
     ```
 - Trips and tricks:
   - **Tensors' shapes**: make use of `.shape` method during debugging and development. Need to check that the tensors going through the model and other code are in the correct shapes.
