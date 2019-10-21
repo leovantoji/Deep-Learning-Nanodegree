@@ -201,6 +201,14 @@
   - **Clear the gradients** in the training loop with `optimizer.zero_grad()`. If you're doing a validation loop, make sure to set the network to evaluation mode with `model.eval()` then go back to training model with `mode.train()`.
   - **CUDA errors**: PyTorch can only perform operations on tensors that are on the same device, so either both CPU or both GPU. If you're trying to run your network on the GPU, check to make sure that you've moved the model and all necessary tensors to the GPU with `.to(device)` where `device` is either `cuda` or `cpu`.
 
+## Convolutional Neural Networks (CNNs)
+- CNNs can look at pictures as a whole and identify **spatial patterns** such as prominent colors and shapes, or whether a texture is fuzzy or smooth, etc.
+- **Data normalization** is an important pre-processing step. It ensures that each input comes from a standard distribution. That is, the range of pixel values in one input image is the same as that of another image. This standardization makes our model train and reach a minimum error faster. **Data normalization** is typically done by subtracting the mean (the average of all pixel values) from each pixel, and then dividing the result by the standard deviation of all the pixel values. Sometimes, you'll see an approximation here, where we use a mean and standard deviation of 0.5 to center the pixel values. For image inputs, we need the pixel numbers to be positive, so we often choose to scale the data in a normalized range \[0,1\].
+- **Loss**: measures any mistakes between a predicted and true class.
+- **Backpropagation**: quantifies how bad a particular weight is in making a mistake.
+- **Optimization**: gives us a way to calculate a better weight value.
+- 
+
 ## Recurrent Neural Networks (RNNs)
 - Recurrent Neural Networks give us a way to incorporate **memory** into our neural networks, and will be critical in analysing sequential data. RNN's are most often associated with **text processing** and **text generation** because of the way sentences are structured as a sequence of words.
 - RNNs have a key flaw, as capturing relationships that span more than 8 or 10 steps back is practically impossible. The flaw stems from the **vanishing gradient** problem in which the contribution of information decays geometrically over time. **LSTM** is one option to overcome the **vanishing gradient** problem in RNNs.
