@@ -1,4 +1,6 @@
 # Deep-Learning-Nanodegree
+- These notes are taken from the Deep Learning Nanodegree course by Udacity.
+
 ## Deep Learning with PyTorch
   - Define the network somewhat more concisely and clearly using the `torch.nn.functional` module. This is the most common way to define network as many operations are simple element-wise functions. `torch.nn.functional` module is usually imported as `F`.
   ```python
