@@ -207,7 +207,69 @@
 - **Loss**: measures any mistakes between a predicted and true class.
 - **Backpropagation**: quantifies how bad a particular weight is in making a mistake.
 - **Optimization**: gives us a way to calculate a better weight value.
-- 
+- **Validation set** is created to:
+  - Measure how well a model generalizes during training.
+  - Tell us when to stop training a model; when the validation loss stops decreasing (and especially when the validation loss starts increasing and the training loss is still decreasing).
+- Sample code (Training with Validation):
+  ```python
+  # number of epochs
+  n_epochs = 50
+  
+  # initialize tracker for minimum validation loss
+  valid_loss_min = np.Inf # set initial "min" to infinity
+  
+  for epoch in range(n_epochs):
+    # monitor training loss
+    train_loss = 0.0
+    valid_loss = 0.0
+    
+    ###################
+    # train the model #
+    ###################
+    model.train() # prep model for training
+    for data, target in train_loader:
+      # clear the gradients of all optimized variables
+      optimizer.zero_grad()
+      # forward pass: compute predicted outputs by passing inputs to the model
+      output = model(data)
+      # calculate the loss
+      loss = criterion(output, target)
+      # backward pass: compute the gradient of the loss with respect to model parameters
+      loss.backward()
+      # perform a single optimization step (parameter update)
+      train_loss += loss.item() * data.size(0)
+      
+    ######################
+    # validate the model #
+    ######################
+    model.eval() # prep model for validation
+    for data, target in valid_loader:
+      # forward pass: compute predicted outputs by passing inputs to the model
+      output = model(data)
+      # calculate the loss
+      loss = criterion(output, target)
+      # update running validation loss
+      valid_loss += loss.item() * data.size(0)
+      
+    # print training/validation statistics
+    # calculate average loss over an epoch
+    train_loss = train_loss/len(train_loader.sampler)
+    valid_loss = valid_loss/len(valid_loader.sampler)
+    
+    print(f'Epoch: {epoch+1} \tTraining Loss: {train_loss:.6f} \tValidation Loss: {valid_loss:.6f}')
+    
+    # save model if validation loss has decreased
+    if valid_loss <= valid_loss_min:
+      print(f'Validation loss decreased ({valid_loss_min:.6f} -> {valid_loss:.6f}). Saving model ...')
+      torch.save(model.state_dict(), 'model.pt')
+      valid_loss_min = valid_loss
+  ```
+- Image Classification Steps:
+  - Visualize Data
+  - Pre-Process (Normalize, Transform)
+  - Define a Model (Research)
+  - Train Model (Define loss & optimization function)
+  - Save the Best Model (Using a validation dataset)
 
 ## Recurrent Neural Networks (RNNs)
 - Recurrent Neural Networks give us a way to incorporate **memory** into our neural networks, and will be critical in analysing sequential data. RNN's are most often associated with **text processing** and **text generation** because of the way sentences are structured as a sequence of words.
