@@ -273,8 +273,8 @@
 - Multi-layered Perceptrons vs. CNNs:
 
   |MLP|CNN|
-  |:-|:-|
-  |<li>Only use **fully** connected layers</li><li>Only accept **vectors** as input</li>|<li>Also use **sparsely** connected layers</li><li>Also accept **matrices** as input</li>|
+  |:-:|:-:|
+  |<ul><li>Only use **fully** connected layers</li><li>Only accept **vectors** as input</li></ul>|<ul><li>Also use **sparsely** connected layers</li><li>Also accept **matrices** as input</li></ul>|
 
 ## Recurrent Neural Networks (RNNs)
 - Recurrent Neural Networks give us a way to incorporate **memory** into our neural networks, and will be critical in analysing sequential data. RNN's are most often associated with **text processing** and **text generation** because of the way sentences are structured as a sequence of words.
