@@ -1,6 +1,4 @@
-# Deep-Learning-Nanodegree
-- These notes are taken from the Deep Learning Nanodegree course by Udacity.
-
+# Udacity Deep Learning Nanodegree
 ## Deep Learning with PyTorch
   - Define the network somewhat more concisely and clearly using the `torch.nn.functional` module. This is the most common way to define network as many operations are simple element-wise functions. `torch.nn.functional` module is usually imported as `F`.
   ```python
@@ -275,6 +273,15 @@
   |MLP|CNN|
   |:-:|:-:|
   |<ul><li>Only use **fully** connected layers</li><li>Only accept **vectors** as input</li></ul>|<ul><li>Also use **sparsely** connected layers</li><li>Also accept **matrices** as input</li></ul>|
+- **Filters** look at groups of pixels, react to alternating patterns of dark/light pixels, and produce an output that shows edges of objects and differing textures. 
+- **Frequency in images** is a **rate of change**. Images change in space, and a high frequency image is one where the intensity changes a lot. The level of brightness changes quickly from one pixel to the next. A low frequency image may be one that is relatively uniform in brightness or changes very slowly. Most images have both high-frequency and low-frequency components. **High-frequency components** also correspond to the **edges of objects** in images. **Edges** are areas in an image where the intensity changes very quickly, and they often indicate object boundaries.
+- **High-pass filters** sharpen an image and enhance *high-frequency* parts of an image.
+- Convolutional **kernel** is a matrix of numbers that modify an image. It's important for **edge detection filter** that all elements of the kernel sum to zero because this filter is computing the **difference or change** between neighboring pixels. Differences are calculated by subtracting pixel values from one another. If the kernel values didn't add up to zero, the calculated difference would be either positively or negatively weighted, which have the effect of brightening or darkening the entire filtered image respectively.
+- **Edge handling**: Kernel convolution relies on centering a pixel and looking at its surrounding neighbors. There are a number of ways to process the edges when there are no surrounding pixels in the case of image corner or edge.
+  - **Extension**: The nearest border pixels are conceptually extended as far as necessary to provide values for the convolution. Corner pixel are extended in 90<sup>o</sup> wedges. Other edge pixels are extended in line.
+  - **Padding**: The image is padded with a border of 0's - black pixels.
+  - **Cropping**: Any pixel in the output image which would require values from beyond the edge is skipped. This method can result in the output image being slightly smaller.
+- 
 
 ## Recurrent Neural Networks (RNNs)
 - Recurrent Neural Networks give us a way to incorporate **memory** into our neural networks, and will be critical in analysing sequential data. RNN's are most often associated with **text processing** and **text generation** because of the way sentences are structured as a sequence of words.
