@@ -281,7 +281,47 @@
   - **Extension**: The nearest border pixels are conceptually extended as far as necessary to provide values for the convolution. Corner pixel are extended in 90<sup>o</sup> wedges. Other edge pixels are extended in line.
   - **Padding**: The image is padded with a border of 0's - black pixels.
   - **Cropping**: Any pixel in the output image which would require values from beyond the edge is skipped. This method can result in the output image being slightly smaller.
-- 
+- **Pooling** operations do throw away some image information. In order to get a smaller feature-level representation of an image, they discard pixel information. This works well in tasks like image classification, but it can cause some issues. For example, given an image of a face that has been photoshopped to include three eyes or a nose placed above the eyes, a feature-level representation will identify these features and still recognize a face even though that face is fake.
+- **Capsule Network** is an alternative to pooling which learns to understand spatial relationships between parts without discarding this information. More about [this topic](https://cezannec.github.io/Capsule_Networks/).
+  - Capsule networks are essentially a collection of nodes, each of which contains information about a specific part or part properties (width, orientation, color, etc.). Each capsule **outputs a vector** with some magnitude and orientation.
+    - Magnitude (m) = the probability that a part exists; a value between 0 and 1.
+    - Orientation (theta) = the state of the part properties.
+  - Capsule networks are made of parent and child nodes that build up a complete picture of an object.
+ - A convolutional layer in the `__init__` function can be defined as follows:
+  ```python
+  self.conv1 = nn.Conv2d(in_channels, out_channels, kernel_size, stride=1, padding=0)
+  ```
+  - `in_channels` - The number of inputs (in depth). For example, 3 for an RGB image.
+  - `out_channels` - The number of output channels (i.e. the number of filtered images a convolutional layer is made of or the number of unique, convolutional kernels that will be applied to an input).
+  - `kernel_size` - A single `int` / `tuple` of 2 ints specifying both the height and width of the convolutional kernel.
+  - `stride` - The stride of the convolution. Default value is 1.
+  - `padding` - The border of 0's around an input array. Default value is 0.
+- Pooling layers take in a `kernel_size` and a `stride`. These 2 inputs are typically the same.
+  ```python
+  self.pool = nn.MaxPool2d(2,2)
+  ```
+- In PyTorch, a CNN can be created using a `Sequential` wrapper in the `__init__` function. Sequential allows us to stack different types of layers, specifying activation functions in between.
+  ```python
+  def __init__(self):
+    super(ModelName, self).__init__()
+    self.features = nn.Sequential(
+      nn.Conv2d(1, 16, 2, stride=2),
+      nn.MaxPool2d(2, 2),
+      nn.ReLU(True),
+      
+      nn.Conv2d(16, 32, 3, padding=1),
+      nn.MaxPool2d(2, 2),
+      nn.ReLU(True)
+    )
+  ```
+- The **number of parameters** in the convolutional layer is given by: `K × F × F × D_in + K`.
+  - `K` - the number of filters in the convolutional layer - `out_channels`.
+  - `F` - the height and width of the convolutional filters - `kernel_size`.
+  - `D_in` - the depth of the previous layer - last value in the `input_shape` tuple.
+- The **spatial dimensions of a convolutional layer** can be calculated as: `(W_in - F + 2P)/S + 1`.
+  - `S` - the stride of the convolution.
+  - `P` - the padding.
+  - `W_in` - the width/height of the previous layer.
 
 ## Recurrent Neural Networks (RNNs)
 - Recurrent Neural Networks give us a way to incorporate **memory** into our neural networks, and will be critical in analysing sequential data. RNN's are most often associated with **text processing** and **text generation** because of the way sentences are structured as a sequence of words.
