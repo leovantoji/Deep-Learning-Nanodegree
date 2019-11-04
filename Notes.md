@@ -323,6 +323,49 @@
   - `P` - the padding.
   - `W_in` - the width/height of the previous layer.
 
+## Transfer Learning
+- **Transfer learning** involves taking a pre-trained neural network and adapting the neural network to a new, different dataset.
+- The approach for using transfer learning will be different depending on the **size of the new dataset** and the **similarity of the new dataset to the original dataset**. Four general different approaches are listed below.
+  - **End of ConvNet**: New dataset is small and new data is similar to original training data.
+  
+  ![case1]()
+  - **Start of ConvNet**: New dataset is small and new data is different from original training data.
+  
+  ![case2]()
+  - **Fine-tune**: New dataset is large and new data is similar to original training data.
+  
+  ![case3]()
+  - **Fine-tune or Retrain**: New dataset is large and new data is different from original training data.
+  
+  ![case4]()
+- Overfitting is a concern when using transfer learning with a small dataset. On the one hand, images of dogs and wolves would be considered similar as the two species appear to share lots of common characteristics. On the other hand, a dataset of flower images would be different from a dataset of dog images.
+- Transfer learning in PyTorch:
+  - Load the pretrained model from PyTorch:
+    ```python
+    vgg16 = models.vgg16(pretrained=True)
+    ```
+  - Freeze training for all *features* layers:
+    ```python
+    for param in vgg16.features.parameters():
+      param.requires_grad = False
+    ```
+  - Replace the last layer of the pretrained model.
+    ```python
+    import torch.nn as nn
+    
+    n_inputs = vgg16.classifier[6].in_features
+    
+    # add last linear layer (n_inputs -> 5 flower classes)
+    # new layers automatically have requires_grad = True
+    last_layer = nn.Linear(n_inputs, len(classes))
+    
+    vgg16.classifier[6] = last_layer
+    
+    # train on GPU if available
+    if train_on_gpu: 
+      vgg16.cuda()
+    ```
+
 ## Recurrent Neural Networks (RNNs)
 - Recurrent Neural Networks give us a way to incorporate **memory** into our neural networks, and will be critical in analysing sequential data. RNN's are most often associated with **text processing** and **text generation** because of the way sentences are structured as a sequence of words.
 - RNNs have a key flaw, as capturing relationships that span more than 8 or 10 steps back is practically impossible. The flaw stems from the **vanishing gradient** problem in which the contribution of information decays geometrically over time. **LSTM** is one option to overcome the **vanishing gradient** problem in RNNs.
@@ -497,17 +540,17 @@
       - **Batch predictions** are commonly used to help make *business decisions*. For example, imagine a business uses a complex model to predict customer satisfaction across a number of their products and they need these estimates for a weekly report. This would require processing customer data through a **batch prediction** request on a weekly basis.
 - Formal definition of **cloud computing**.
 
-[nistcloudcomputing]()
+![nistcloudcomputing]()
 - **Service Models of Cloud Computing**:
   - **Software as a Service (SaaS)**:
   
-  [nist-cloudcomputing-servicemodelssaas]()
+  ![nist-cloudcomputing-servicemodelssaas]()
   - **Platform as a Service (PaaS)**:
   
-  [nist-cloudcomputing-servicemodelspaas]()
+  ![nist-cloudcomputing-servicemodelspaas]()
   - **Infrastructure as a Service (SaaS)**:
   
-  [nist-cloudcomputing-servicemodelsiaas]()
+  ![nist-cloudcomputing-servicemodelsiaas]()
 - **Deployment Models of Cloud Computing**: Different levels of security are automatically provided with each deployment model. Uderstanding deployment models are important in providing the appropriate level of security on the cloud services you use. The primary way to distinguish between different deployment models is by the group that's provisioning the cloud services. With provisioning, we simply mean the group that's providing the cloud services for their group's use.
   - **Public Cloud**: Most cloud deployment models offered by cloud providers, like Amazon Web Service or Google Cloud Platform, are public clouds. Public clouds are provisioned for use by the general public and they are the least secure of the deployment models. Because public clouds are the least secure, most providers allow customers to enable features that provide a "virtual private cloud" to increase the security on their public clouds.
   - **Community Cloud**: AWS's GovCloud is an example of a community cloud. GovCloud customers are limited to US federal government employees, contractors, and agencies that have been granted access. Community clouds are more secure than public clouds because providers limiting access to community members, and they isolate computing resources used by the community. A community cloud deployment model is provisioned by a specific community of customers from different organisations that have shared interests, like the US federal government in our GovCloud example. Shared interests may include a shared mission, security requirements, policies, and/or compliance considerations.
@@ -521,13 +564,13 @@
 - **Capacity Utilisation Graph**:
   - **Wasted Capacity**:
   
-  [capacityutilizationcurve-wastedcap4]()
+  ![capacityutilizationcurve-wastedcap4]()
   - **Insufficient Capacity**:
   
-  [capacityutilizationcurve-insufficientcap3]()
+  ![capacityutilizationcurve-insufficientcap3]()
   - **Dynamic Capacity**:
   
-  [capacityutilizationcurve-dynamiccap4]()
+  ![capacityutilizationcurve-dynamiccap4]()
 
 ## Building a Model using Amazon SageMaker
 - **SageMaker session** is a special object that allows you to do things like manage data in S3 and create and train any machine learning models; you can read more about the functions that can be called on a session [here](https://sagemaker.readthedocs.io/en/latest/session.html).
