@@ -366,6 +366,27 @@
       vgg16.cuda()
     ```
 
+## Weight Initialization
+- Perform a test on the same dataset and neural network to determine which weight initialization strategy works best.
+- **Constant weight** initialization sets backpropagation to fail because the algorithm is not designed to deal with consistency. To be specific, since the weights are initialized to be all the same, the activations of all units in the hidden layers are also the same. Thus, the backprop algorithm struggles to minimize the loss.
+  ```python
+  class Net(nn.Module):
+    def __init__(self, hidden_1=256, hidden_2=128, constant_weight=None):
+      super(Net, self).__init__()
+      self.fc1 = nn.Linear(28*28, hidden_1)
+      self.fc2 = nn.Linear(hidden_1, hidden_2)
+      self.fc3 = nn.Linear(hidden_2, 10)
+      self.dropout = nn.Dropout(0.2)
+      
+      # initialize the weights to a specified, constant value
+      if(constant_weight is not None):
+        for m in self.modules():
+          if isinstance(m, nn.Linear):
+            nn.init.constant_(m.weight, constant_weight)
+            nn.init.constant_(m.bias, 0)
+  ```
+- **Random uniform**.
+
 ## Recurrent Neural Networks (RNNs)
 - Recurrent Neural Networks give us a way to incorporate **memory** into our neural networks, and will be critical in analysing sequential data. RNN's are most often associated with **text processing** and **text generation** because of the way sentences are structured as a sequence of words.
 - RNNs have a key flaw, as capturing relationships that span more than 8 or 10 steps back is practically impossible. The flaw stems from the **vanishing gradient** problem in which the contribution of information decays geometrically over time. **LSTM** is one option to overcome the **vanishing gradient** problem in RNNs.
